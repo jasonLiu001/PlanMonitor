@@ -47,7 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="lib\Http.cs" />
+    <Compile Include="lib\HttpHelper.cs" />
     <Compile Include="lib\Win32.cs" />
     <Compile Include="lib\WMessage.cs" />
     <Compile Include="Logger.cs" />

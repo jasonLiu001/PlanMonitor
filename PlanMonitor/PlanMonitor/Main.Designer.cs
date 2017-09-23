@@ -36,7 +36,7 @@
             this.txt_captchacode = new System.Windows.Forms.TextBox();
             this.pic_captchacode = new System.Windows.Forms.PictureBox();
             this.btn_login = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txt_logmessage = new System.Windows.Forms.TextBox();
             this.gb_logmessage = new System.Windows.Forms.GroupBox();
             this.gp_login = new System.Windows.Forms.GroupBox();
             this.lbl_loginurl = new System.Windows.Forms.Label();
@@ -113,24 +113,25 @@
             // 
             // btn_login
             // 
-            this.btn_login.Location = new System.Drawing.Point(127, 179);
+            this.btn_login.Location = new System.Drawing.Point(203, 183);
             this.btn_login.Name = "btn_login";
             this.btn_login.Size = new System.Drawing.Size(80, 41);
             this.btn_login.TabIndex = 5;
-            this.btn_login.Text = "登录";
+            this.btn_login.Text = "运行";
             this.btn_login.UseVisualStyleBackColor = true;
+            this.btn_login.Click += new System.EventHandler(this.btn_login_Click);
             // 
-            // textBox1
+            // txt_logmessage
             // 
-            this.textBox1.Location = new System.Drawing.Point(6, 27);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(503, 167);
-            this.textBox1.TabIndex = 6;
+            this.txt_logmessage.Location = new System.Drawing.Point(6, 27);
+            this.txt_logmessage.Multiline = true;
+            this.txt_logmessage.Name = "txt_logmessage";
+            this.txt_logmessage.Size = new System.Drawing.Size(503, 167);
+            this.txt_logmessage.TabIndex = 6;
             // 
             // gb_logmessage
             // 
-            this.gb_logmessage.Controls.Add(this.textBox1);
+            this.gb_logmessage.Controls.Add(this.txt_logmessage);
             this.gb_logmessage.Location = new System.Drawing.Point(14, 313);
             this.gb_logmessage.Name = "gb_logmessage";
             this.gb_logmessage.Size = new System.Drawing.Size(515, 200);
@@ -179,9 +180,9 @@
             this.sts_message.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.sts_message.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.sts_lbl_message});
-            this.sts_message.Location = new System.Drawing.Point(0, 531);
+            this.sts_message.Location = new System.Drawing.Point(0, 534);
             this.sts_message.Name = "sts_message";
-            this.sts_message.Size = new System.Drawing.Size(543, 29);
+            this.sts_message.Size = new System.Drawing.Size(541, 29);
             this.sts_message.TabIndex = 9;
             // 
             // sts_lbl_message
@@ -197,7 +198,7 @@
             this.tsm_settings});
             this.mst_menu.Location = new System.Drawing.Point(0, 0);
             this.mst_menu.Name = "mst_menu";
-            this.mst_menu.Size = new System.Drawing.Size(543, 32);
+            this.mst_menu.Size = new System.Drawing.Size(541, 32);
             this.mst_menu.TabIndex = 10;
             this.mst_menu.Text = "menuStrip1";
             // 
@@ -211,7 +212,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(543, 560);
+            this.ClientSize = new System.Drawing.Size(541, 563);
             this.Controls.Add(this.sts_message);
             this.Controls.Add(this.mst_menu);
             this.Controls.Add(this.gp_login);
@@ -244,7 +245,7 @@
         private System.Windows.Forms.TextBox txt_captchacode;
         private System.Windows.Forms.PictureBox pic_captchacode;
         private System.Windows.Forms.Button btn_login;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txt_logmessage;
         private System.Windows.Forms.GroupBox gb_logmessage;
         private System.Windows.Forms.GroupBox gp_login;
         private System.Windows.Forms.TextBox txt_loginurl;

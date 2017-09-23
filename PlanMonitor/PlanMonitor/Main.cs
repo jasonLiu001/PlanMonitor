@@ -15,7 +15,7 @@ namespace Monitor
     public partial class Main : Form
     {
         PlanMonitor plan = new PlanMonitor();
-        CookieContainer cookieContainer = new CookieContainer();
+        CookieCollection cookieCollection = new CookieCollection();
 
         public Main()
         {
@@ -25,7 +25,7 @@ namespace Monitor
         private void btn_login_Click(object sender, EventArgs e)
         {
             var url = this.txt_loginurl.Text.Trim();
-            var response = HttpHelper.CreateGetHttpResponse(url, null, null, null);
+            var response = HttpHelper.CreateGetHttpResponse(url, null, null, cookieCollection);
             this.txt_logmessage.Text = HttpHelper.GetResponseContent(response);
         }
     }

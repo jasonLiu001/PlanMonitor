@@ -31,6 +31,11 @@ namespace Monitor
 
         private void btn_login_Click(object sender, EventArgs e)
         {
+            if(string.IsNullOrEmpty(this.txt_password.Text))
+            {
+                MessageBox.Show("密码不能为空");
+                return;
+            }
             this.Login();
         }
 
@@ -83,6 +88,27 @@ namespace Monitor
             SetLogMessageResult(HttpHelper.GetResponse($"{HomePage}/login/safe.mvc?null", "POST", null));
             SetLogMessageResult(HttpHelper.GetResponse($"{HomePage}/login/login.mvc", "POST", $"username={this.txt_username.Text.Trim()}&validate={strpic_str}&password={this.txt_password.Text.Trim()}&_BrowserInfo=chrome/53.0.2785.104"));
             #endregion
+
+            #region 获取投注Token值
+            //请求登录成功后首页
+            HttpHelper.GetResponse($"{HomePage}/Index", "GET", null);
+            HttpHelper.GetResponse($"{HomePage}/userInfo/getUserInfo.mvc", "POST", $"menuName=");
+            //打开时时彩
+            var tokenString = HttpHelper.GetResponse($"{HomePage}/gameType/initGame.mvc", "POST", $"gameID=1");
+            var tokenObj = JObject.Parse(tokenString);
+            var token = string.Empty;
+            if (tokenObj != null && tokenObj["data"] != null && tokenObj["data"]["token_tz"] != null)
+            {
+                token = tokenObj["data"]["token_tz"].ToString();
+            }
+            SetLogMessageResult($"token_tz={token}");
+            #endregion
+
+            //获取当前账号余额
+            SetLogMessageResult(HttpHelper.GetResponse($"{HomePage}/userInfo/getBalance.mvc","GET",null));
+
+            //执行后一投注
+            SetLogMessageResult(HttpHelper.GetResponse($"{HomePage}/cathectic/cathectic.mvc", "POST", $"json={{'token':'{token}','issueNo':'20170924-056','gameId':'1','tingZhiZhuiHao':'true','zhuiHaoQiHao':[],'touZhuHaoMa':[{{'wanFaID':'41','touZhuHaoMa':'||||4,5','digit':'4','touZhuBeiShu':'1','danZhuJinEDanWei':'1','yongHuSuoTiaoFanDian':'0','zhuShu':'2','bouse':'7.7'}}]}}"));
         }
         #endregion
 

@@ -93,7 +93,6 @@
             this.txt_password.Name = "txt_password";
             this.txt_password.Size = new System.Drawing.Size(162, 28);
             this.txt_password.TabIndex = 3;
-            this.txt_password.Text = "86liu5229147678j";
             this.txt_password.UseSystemPasswordChar = true;
             // 
             // txt_captchacode

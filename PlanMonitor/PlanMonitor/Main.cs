@@ -30,23 +30,25 @@ namespace Monitor
         }
 
         private void btn_login_Click(object sender, EventArgs e)
-        {            
-            //获取请求结果
-            this.GetHttpResponseThread();
-            //获取验证码
-            this.GetLoginCodeThread();
+        {
+            this.Login();
         }
 
-        #region 获取验证码并破解
-        private void GetLoginCodeThread()
+        #region 异步登录
+        private void Login()
         {
-            Thread threadGetLoginCode = new Thread(new ThreadStart(GetCaptchaCode));
-            threadGetLoginCode.Name = "GetLoginCodeThread";
+            Thread threadGetLoginCode = new Thread(new ThreadStart(LoginThread));
+            threadGetLoginCode.Name = "LoginThread";
             threadGetLoginCode.Start();
         }
 
-        private void GetCaptchaCode()
+        private void LoginThread()
         {
+            #region 打开登录首页
+            HttpHelper.GetResponse(HomePage, "GET", null);
+            #endregion
+
+            #region 验证码破解
             Stream stream = null;
             for (int i = 0; i < 10000; i++)
             {
@@ -58,13 +60,13 @@ namespace Monitor
             }
 
             Image image = Image.FromStream(stream);
-            var filePath = $"{System.Environment.CurrentDirectory}\\captcha.png";
+            var filePath = $"{Environment.CurrentDirectory}\\captcha.png";
             image.Save(filePath);
             string str = NetRecognizePic.CJY_RecognizeFile(filePath, "wangjackie", NetRecognizePic.MD5String(this.txt_password.Text.Trim()), CaptchaDecorder.SoftId, CaptchaDecorder.CodeType, "0", "0", "");
             string strerr = NetRecognizePic.GetTextByKey(str, "err_str");
             if (strerr != "OK")
             {
-                SetLogMessageResult("[" + DateTime.Now.ToString("HH:mm:ss") + "]" + strerr + "\r\n");
+                SetLogMessageResult("[" + DateTime.Now.ToString("HH:mm:ss") + "]" + strerr);
                 return;
             }
 
@@ -72,24 +74,16 @@ namespace Monitor
             string strpic_str = NetRecognizePic.GetTextByKey(str, "pic_str");
 
 
-            SetLogMessageResult("[" + DateTime.Now.ToString("HH:mm:ss") + "]识别结果:" + strpic_str + "\r\n");
+            SetLogMessageResult("[" + DateTime.Now.ToString("HH:mm:ss") + "] 验证码:" + strpic_str);
             SetCaptcheCodeResult(strpic_str);//验证码识别结果
             this.pic_captchacode.Image = image;
-        }
-        #endregion
+            #endregion
 
-        #region 获取请求结果
-        private void GetHttpResponseThread()
-        {
-            Thread threadGetLoginCode = new Thread(new ThreadStart(GetHttpResponse));
-            threadGetLoginCode.Name = "GetHttpResponse";
-            threadGetLoginCode.Start();
+            #region 发送登录请求
+            SetLogMessageResult(HttpHelper.GetResponse($"{HomePage}/login/safe.mvc?null", "POST", null));
+            SetLogMessageResult(HttpHelper.GetResponse($"{HomePage}/login/login.mvc", "POST", $"username={this.txt_username.Text.Trim()}&validate={strpic_str}&password={this.txt_password.Text.Trim()}&_BrowserInfo=chrome/53.0.2785.104"));
+            #endregion
         }
-
-        private void GetHttpResponse()
-        {
-            SetLogMessageResult(HttpHelper.GetResponse(HomePage, "GET", null));
-        } 
         #endregion
 
         #region 委托实现跨线程更新文本内容
@@ -105,6 +99,7 @@ namespace Monitor
         private void WriteLogMessage(string text)
         {
             this.txt_logmessage.AppendText($"\r\n{text.Trim()}");
+            Logger.WriteLog(text.Trim());
         }
         private void WriteCaptcheCodeMessage(string text)
         {

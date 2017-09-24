@@ -20,23 +20,39 @@ namespace Monitor
         /// <summary>
         /// 网站首页
         /// </summary>
-        private static string HomePage = "https://123.jn707.com";
+        private static string HomePage = string.Empty;
+
+        private System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
 
         PlanMonitor plan = new PlanMonitor();
 
         public Main()
         {
             InitializeComponent();
+            //初始化控件
+            InitControl();
+        }
+
+        private void InitControl()
+        {
+            HomePage = this.txt_loginurl.Text.Trim();
+            timer.Interval = 10000;
+            timer.Tick += Timer_Tick;
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            plan.Start(this.Login);
         }
 
         private void btn_login_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(this.txt_password.Text))
+            if (string.IsNullOrEmpty(this.txt_password.Text))
             {
                 MessageBox.Show("密码不能为空");
                 return;
             }
-            this.Login();
+            this.timer.Start();
         }
 
         #region 异步登录
@@ -105,7 +121,7 @@ namespace Monitor
             #endregion
 
             //获取当前账号余额
-            SetLogMessageResult(HttpHelper.GetResponse($"{HomePage}/userInfo/getBalance.mvc","GET",null));
+            SetLogMessageResult(HttpHelper.GetResponse($"{HomePage}/userInfo/getBalance.mvc", "GET", null));
 
             //执行后一投注
             SetLogMessageResult(HttpHelper.GetResponse($"{HomePage}/cathectic/cathectic.mvc", "POST", $"json={{'token':'{token}','issueNo':'20170924-056','gameId':'1','tingZhiZhuiHao':'true','zhuiHaoQiHao':[],'touZhuHaoMa':[{{'wanFaID':'41','touZhuHaoMa':'||||4,5','digit':'4','touZhuBeiShu':'1','danZhuJinEDanWei':'1','yongHuSuoTiaoFanDian':'0','zhuShu':'2','bouse':'7.7'}}]}}"));
@@ -132,5 +148,15 @@ namespace Monitor
             this.txt_captchacode.Text = text.Trim();
         }
         #endregion
+
+        private void txt_logmessage_DoubleClick(object sender, EventArgs e)
+        {
+            this.txt_logmessage.Text = string.Empty;
+        }
+
+        private void btn_stop_Click(object sender, EventArgs e)
+        {
+            this.timer.Stop();
+        }
     }
 }

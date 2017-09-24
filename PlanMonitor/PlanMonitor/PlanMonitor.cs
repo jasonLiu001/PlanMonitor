@@ -64,7 +64,6 @@ namespace Monitor
             {
                 var msg = "白猫计划软件窗口查找失败";
                 Logger.WriteLog(msg);
-                Console.WriteLine(msg);
                 return fullPlan;
             }
 
@@ -110,17 +109,6 @@ namespace Monitor
 
             }
             return txt;
-        }
-
-        /// <summary>
-        /// 执行投注
-        /// </summary>
-        private void ExecuteInvest()
-        {
-            var investNumbers = GetInvestNumbers();
-            if (string.IsNullOrEmpty(investNumbers)) return;
-            var periodString = GetFirstPeriodString();
-            process = Process.Start("cmd.exe", $"/C cd {nodeAppPath} && node CommandApp.js -n {investNumbers} -a {awardModel} -m {maxAccountReached} -l {maxLoseAccountReached} -d {beginDoubleCount} -p {periodString}");
         }
 
         /// <summary>
@@ -176,7 +164,7 @@ namespace Monitor
         /// <summary>
         /// 开始计划监视
         /// </summary>
-        public void Start()
+        public void Start(LoginDelegate login)
         {
             //清除多余进程信息
             if (process != null) process = null;
@@ -202,8 +190,8 @@ namespace Monitor
 
                     //更新计划文字长度
                     lastPlanTextLength = currentPlanTextLenght;
-                    //执行投注                
-                    ExecuteInvest();
+                    //执行登录并投注 
+                    login();            
                     return;
                 }
 
@@ -213,14 +201,16 @@ namespace Monitor
 
                 //更新计划文字长度
                 lastPlanTextLength = currentPlanTextLenght;
-                //执行投注
-                ExecuteInvest();
+                //执行登录并投注
+                login();
             }
             catch (Exception ex)
             {
                 Logger.WriteLog(ex.Message);
-                Console.WriteLine(ex.Message);
             }
         }
+
+        public delegate void LoginDelegate();
+        public delegate void SetLogMessageResultDelegate(string text);
     }
 }

@@ -45,6 +45,7 @@
             this.sts_lbl_message = new System.Windows.Forms.ToolStripStatusLabel();
             this.mst_menu = new System.Windows.Forms.MenuStrip();
             this.tsm_settings = new System.Windows.Forms.ToolStripMenuItem();
+            this.btn_stop = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pic_captchacode)).BeginInit();
             this.gb_logmessage.SuspendLayout();
             this.gp_login.SuspendLayout();
@@ -112,7 +113,7 @@
             // 
             // btn_login
             // 
-            this.btn_login.Location = new System.Drawing.Point(203, 183);
+            this.btn_login.Location = new System.Drawing.Point(144, 185);
             this.btn_login.Name = "btn_login";
             this.btn_login.Size = new System.Drawing.Size(80, 41);
             this.btn_login.TabIndex = 5;
@@ -128,6 +129,7 @@
             this.txt_logmessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txt_logmessage.Size = new System.Drawing.Size(503, 167);
             this.txt_logmessage.TabIndex = 6;
+            this.txt_logmessage.DoubleClick += new System.EventHandler(this.txt_logmessage_DoubleClick);
             // 
             // gb_logmessage
             // 
@@ -141,6 +143,7 @@
             // 
             // gp_login
             // 
+            this.gp_login.Controls.Add(this.btn_stop);
             this.gp_login.Controls.Add(this.txt_loginurl);
             this.gp_login.Controls.Add(this.lbl_loginurl);
             this.gp_login.Controls.Add(this.lbl_password);
@@ -208,6 +211,16 @@
             this.tsm_settings.Size = new System.Drawing.Size(94, 28);
             this.tsm_settings.Text = "系统设置";
             // 
+            // btn_stop
+            // 
+            this.btn_stop.Location = new System.Drawing.Point(274, 185);
+            this.btn_stop.Name = "btn_stop";
+            this.btn_stop.Size = new System.Drawing.Size(80, 41);
+            this.btn_stop.TabIndex = 8;
+            this.btn_stop.Text = "停止";
+            this.btn_stop.UseVisualStyleBackColor = true;
+            this.btn_stop.Click += new System.EventHandler(this.btn_stop_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -254,6 +267,7 @@
         private System.Windows.Forms.ToolStripStatusLabel sts_lbl_message;
         private System.Windows.Forms.MenuStrip mst_menu;
         private System.Windows.Forms.ToolStripMenuItem tsm_settings;
+        private System.Windows.Forms.Button btn_stop;
     }
 }
 

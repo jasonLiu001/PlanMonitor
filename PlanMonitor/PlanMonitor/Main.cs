@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json.Linq;
-using PlanMonitor;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,46 +16,57 @@ namespace Monitor
 {
     public partial class Main : Form
     {
+
+        private string HomePage = string.Empty;
         /// <summary>
-        /// 网站首页
+        /// 当前窗体的引用
         /// </summary>
-        private static string HomePage = string.Empty;
+        private static Main _instance;
 
+        /// <summary>
+        /// 计划软件监控类
+        /// </summary>
+        private PlanMonitor plan;
+
+        /// <summary>
+        /// 获取计划计时器
+        /// </summary>
         private System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
-
-        PlanMonitor plan = new PlanMonitor();
 
         public Main()
         {
+            _instance = this;
             InitializeComponent();
             //初始化控件
             InitControl();
         }
 
+        public static Main GetInstance()
+        {
+            return _instance;
+        }
+
+        /// <summary>
+        /// 初始化入口
+        /// </summary>
         private void InitControl()
         {
             HomePage = this.txt_loginurl.Text.Trim();
             timer.Interval = 10000;
             timer.Tick += Timer_Tick;
+            plan = PlanMonitor.GetInstance();
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            plan.Start(this.Login);
-        }
-
-        private void btn_login_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrEmpty(this.txt_password.Text))
-            {
-                MessageBox.Show("密码不能为空");
-                return;
-            }
-            this.timer.Start();
+            plan.Start();
         }
 
         #region 异步登录
-        private void Login()
+        /// <summary>
+        /// 执行登录
+        /// </summary>
+        public void Login()
         {
             Thread threadGetLoginCode = new Thread(new ThreadStart(LoginThread));
             threadGetLoginCode.Name = "LoginThread";
@@ -96,7 +106,7 @@ namespace Monitor
 
 
             SetLogMessageResult("[" + DateTime.Now.ToString("HH:mm:ss") + "] 验证码:" + strpic_str);
-            SetCaptcheCodeResult(strpic_str);//验证码识别结果
+            SetLogMessageResult(strpic_str);//验证码识别结果
             this.pic_captchacode.Image = image;
             #endregion
 
@@ -128,6 +138,28 @@ namespace Monitor
         }
         #endregion
 
+        #region 按钮事件
+        private void btn_login_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(this.txt_password.Text))
+            {
+                MessageBox.Show("密码不能为空");
+                return;
+            }
+            this.timer.Start();
+        }
+
+        private void txt_logmessage_DoubleClick(object sender, EventArgs e)
+        {
+            this.txt_logmessage.Text = string.Empty;
+        }
+
+        private void btn_stop_Click(object sender, EventArgs e)
+        {
+            this.timer.Stop();
+        }
+        #endregion
+
         #region 委托实现跨线程更新文本内容
         public void SetCaptcheCodeResult(string text)
         {
@@ -148,15 +180,5 @@ namespace Monitor
             this.txt_captchacode.Text = text.Trim();
         }
         #endregion
-
-        private void txt_logmessage_DoubleClick(object sender, EventArgs e)
-        {
-            this.txt_logmessage.Text = string.Empty;
-        }
-
-        private void btn_stop_Click(object sender, EventArgs e)
-        {
-            this.timer.Stop();
-        }
     }
 }

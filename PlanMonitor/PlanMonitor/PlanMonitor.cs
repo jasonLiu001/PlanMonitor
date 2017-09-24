@@ -54,6 +54,32 @@ namespace Monitor
         public static int lastPlanTextLength = 0;
 
         /// <summary>
+        /// 主窗体的引用
+        /// </summary>
+        private static Main main;
+
+        /// <summary>
+        /// 当前类实例
+        /// </summary>
+        private static PlanMonitor _instance;
+
+        private PlanMonitor()
+        {
+            main = Main.GetInstance();
+        }
+
+        public static PlanMonitor GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new PlanMonitor();
+            }
+            return _instance;
+        }
+
+
+
+        /// <summary>
         /// 获取完整的计划字符串
         /// </summary>
         private string GetFullPlan()
@@ -64,6 +90,7 @@ namespace Monitor
             {
                 var msg = "白猫计划软件窗口查找失败";
                 Logger.WriteLog(msg);
+                main.SetLogMessageResult(msg);
                 return fullPlan;
             }
 
@@ -164,7 +191,7 @@ namespace Monitor
         /// <summary>
         /// 开始计划监视
         /// </summary>
-        public void Start(LoginDelegate login)
+        public void Start()
         {
             //清除多余进程信息
             if (process != null) process = null;
@@ -191,7 +218,7 @@ namespace Monitor
                     //更新计划文字长度
                     lastPlanTextLength = currentPlanTextLenght;
                     //执行登录并投注 
-                    login();            
+                    main.Login();
                     return;
                 }
 
@@ -202,15 +229,13 @@ namespace Monitor
                 //更新计划文字长度
                 lastPlanTextLength = currentPlanTextLenght;
                 //执行登录并投注
-                login();
+                main.Login();
             }
             catch (Exception ex)
             {
                 Logger.WriteLog(ex.Message);
+                main.SetLogMessageResult(ex.Message);
             }
         }
-
-        public delegate void LoginDelegate();
-        public delegate void SetLogMessageResultDelegate(string text);
     }
 }

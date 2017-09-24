@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace Monitor.lib
+namespace Monitor
 {
     public class Win32
     {

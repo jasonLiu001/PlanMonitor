@@ -39,8 +39,8 @@
             this.txt_logmessage = new System.Windows.Forms.TextBox();
             this.gb_logmessage = new System.Windows.Forms.GroupBox();
             this.gp_login = new System.Windows.Forms.GroupBox();
-            this.lbl_loginurl = new System.Windows.Forms.Label();
             this.txt_loginurl = new System.Windows.Forms.TextBox();
+            this.lbl_loginurl = new System.Windows.Forms.Label();
             this.sts_message = new System.Windows.Forms.StatusStrip();
             this.sts_lbl_message = new System.Windows.Forms.ToolStripStatusLabel();
             this.mst_menu = new System.Windows.Forms.MenuStrip();
@@ -105,9 +105,9 @@
             // 
             // pic_captchacode
             // 
-            this.pic_captchacode.Location = new System.Drawing.Point(274, 133);
+            this.pic_captchacode.Location = new System.Drawing.Point(274, 126);
             this.pic_captchacode.Name = "pic_captchacode";
-            this.pic_captchacode.Size = new System.Drawing.Size(98, 28);
+            this.pic_captchacode.Size = new System.Drawing.Size(146, 44);
             this.pic_captchacode.TabIndex = 4;
             this.pic_captchacode.TabStop = false;
             // 
@@ -126,6 +126,7 @@
             this.txt_logmessage.Location = new System.Drawing.Point(6, 27);
             this.txt_logmessage.Multiline = true;
             this.txt_logmessage.Name = "txt_logmessage";
+            this.txt_logmessage.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txt_logmessage.Size = new System.Drawing.Size(503, 167);
             this.txt_logmessage.TabIndex = 6;
             // 
@@ -158,6 +159,14 @@
             this.gp_login.TabStop = false;
             this.gp_login.Text = "登录";
             // 
+            // txt_loginurl
+            // 
+            this.txt_loginurl.Location = new System.Drawing.Point(92, 36);
+            this.txt_loginurl.Name = "txt_loginurl";
+            this.txt_loginurl.Size = new System.Drawing.Size(399, 28);
+            this.txt_loginurl.TabIndex = 7;
+            this.txt_loginurl.Text = "https://123.jn707.com";
+            // 
             // lbl_loginurl
             // 
             this.lbl_loginurl.AutoSize = true;
@@ -166,14 +175,6 @@
             this.lbl_loginurl.Size = new System.Drawing.Size(53, 18);
             this.lbl_loginurl.TabIndex = 6;
             this.lbl_loginurl.Text = "网 址";
-            // 
-            // txt_loginurl
-            // 
-            this.txt_loginurl.Location = new System.Drawing.Point(92, 36);
-            this.txt_loginurl.Name = "txt_loginurl";
-            this.txt_loginurl.Size = new System.Drawing.Size(399, 28);
-            this.txt_loginurl.TabIndex = 7;
-            this.txt_loginurl.Text = "https://123.jn700.com/Login";
             // 
             // sts_message
             // 
